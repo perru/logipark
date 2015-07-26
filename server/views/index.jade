@@ -1,0 +1,156 @@
+extends layout
+
+append css
+	link(rel='stylesheet', href='stylesheets/map.css')
+	
+append script
+	script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places')
+
+block content
+	- var strparkings = JSON.stringify(parkingresults)
+	script(type='text/javascript').
+		var geocoder;
+		var map;
+		
+		var parkings = [];
+		var lstparkings = !{strparkings};
+		for(var i in lstparkings)
+		{
+			var parking = lstparkings[i];
+			parkings.push(["<b>"+parking.nom+"</b><br /><i>"+parking.adresse+"</i><br /><br /><a href=\"/parking/"+parking.id+"\" data-toggle=\"modal\"><button class=\"btn btn-mini btn-primary pull-left\" type=\"button\">+ Infos</button></a><a href=\"#\"><a href=\"/book/"+parking.id+"\" type=\"button\"><button class=\"btn btn-mini btn-warning pull-right\" type=\"button\">Réserver</button></a>",parking.lat,parking.lng,parking.id]);
+		} 
+		
+		/* Exemples en dur
+		var parkings = [
+		['Bellecour', 45.7580622, 4.833195799999999, 1],
+		['Part-Dieu', 45.76057300000001, 4.857304900000031, 2],
+		]; */
+
+		function initialize() {
+			geocoder = new google.maps.Geocoder();
+			var latlng = new google.maps.LatLng(45.764043, 4.835658999999964);
+			var mapOptions = {
+				zoom: 12,
+				center: latlng,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+			}
+
+			map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+			setMarkers(map, parkings);
+
+			var input = /** @type {HTMLInputElement} */(document.getElementById('address'));
+			var autocomplete = new google.maps.places.Autocomplete(input);
+
+			autocomplete.bindTo('bounds', map);
+
+			var infowindow = new google.maps.InfoWindow();
+			var marker = new google.maps.Marker({
+				map: map
+			});
+
+			google.maps.event.addListener(autocomplete, 'place_changed', function() {
+				infowindow.close();
+				marker.setVisible(false);
+				input.className = 'input-xxlarge';
+				var place = autocomplete.getPlace();
+				if (!place.geometry) {
+					input.className = 'input-xxlarge';
+					return;
+			}
+
+			if (place.geometry.viewport) {
+				map.fitBounds(place.geometry.viewport);
+			} else {
+				map.setCenter(place.geometry.location);
+				map.setZoom(17);  // Changer Zoom lors de la recherche
+			}
+			
+			marker.setPosition(place.geometry.location);
+			marker.setVisible(true);
+
+			var address = '';
+			if (place.address_components) {
+				address = [
+					(place.address_components[0] && place.address_components[0].short_name || ''),
+					(place.address_components[1] && place.address_components[1].short_name || ''),
+					(place.address_components[2] && place.address_components[2].short_name || '')
+				].join(' ');
+			}
+
+				infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+				infowindow.open(map, marker);
+			});
+		}
+		
+		var infowindow = new google.maps.InfoWindow();
+
+		function setMarkers(map, locations) {
+			var image = {
+				url: '/images/flag.png',
+				size: new google.maps.Size(26, 32),
+				origin: new google.maps.Point(0,0),
+				anchor: new google.maps.Point(15, 32)
+			};
+
+			var shadow = {
+				url: '/images/shadow.png',
+				size: new google.maps.Size(45, 32),
+				origin: new google.maps.Point(0,0),
+				anchor: new google.maps.Point(15, 32)
+			};
+
+			var shape = {
+				coord: [4, 0, 25, 0, 20, 22, 0, 22],
+				type: 'poly'
+			};
+
+			var marker, i;
+
+			for (var i = 0; i < locations.length; i++) {
+				var parking = locations[i];
+				var myLatLng = new google.maps.LatLng(parking[1], parking[2]);
+				var marker = new google.maps.Marker({
+					position: myLatLng,
+					map: map,
+					shadow: shadow,
+					icon: image,
+					shape: shape,
+					zIndex: parking[3]
+				});
+
+				google.maps.event.addListener(marker, 'click', (function(marker, i) {
+					return function() {
+						infowindow.setContent(locations[i][0]);
+						infowindow.open(map, marker);
+					}
+				})(marker, i));
+			}
+		}
+		
+		var marker;
+
+		function codeAddress() {
+			var address = document.getElementById('address').value;
+			geocoder.geocode( { 'address': address}, function(results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
+					map.setCenter(results[0].geometry.location);
+					if(marker != null) marker.setMap(null);
+					marker = new google.maps.Marker({
+						map: map,
+						position: results[0].geometry.location
+					});
+				} else {
+					alert('Erreur de localisation: ' + status);
+				}
+			});
+		}
+
+		google.maps.event.addDomListener(window, 'load', initialize);
+	body
+		#panel
+				.input-append
+						input.input-xxlarge(type='text', id='address', name='address', value='', placeholder='Rechercher un parking', onkeypress="if(event.keyCode==13){codeAddress()}")
+						input.btn.btn-success(type='submit', value='Recherche',onclick="codeAddress()")
+		#map-canvas

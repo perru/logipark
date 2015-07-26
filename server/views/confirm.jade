@@ -1,0 +1,15 @@
+extends layout
+
+block content
+	.fondparkingblack
+		.fondparkingphoto(style="background-image:url(/upload/#{parking.photo});")
+			.fondparkingdeg
+				.container-fluid.parking
+					h1 #{parking.nom}
+					p.lead #{parking.adresse}
+	
+	.hero-unit
+		h1 Réservation effectuée
+		p Votre réservation au #{parking.nom} a bien été prise en compte. Nous vous avons attribué la place : #{place[0].nom_place}.
+		p
+			a.btn.btn-primary.btn-large(href="/") Terminer ma commande

@@ -1,0 +1,38 @@
+extends layout
+
+block content
+	.container-fluid
+		.page-header
+			h1 Inscription
+				small &nbsp; S'inscrire à Logipark
+			.alert.alert-block.alert-info.fade.in
+				button.close(type="button", data-dismiss="alert") &times;
+				h4 Inscription gratuite
+				p L'inscription au service LogiPark est rapide et gratuite
+			- var link = "/registerval";
+			- link = redirect ? link + "?r=" + encodeURIComponent(redirect) : link;
+			form.form-horizontal(action='#{link}',method='post')
+				.control-group
+					label.control-label Nom
+					.controls
+						input(id='nom', name='nom', type='text',value='', placeholder='Votre nom', required)
+				.control-group
+					label.control-label Prénom
+					.controls
+						input(id='prenom', name='prenom', type='text',value='', placeholder='Votre prénom', required)
+				.control-group
+					label.control-label Mail
+					.controls
+						input(id='mail', name='mail' ,type='text',value='', placeholder='Votre email', required)
+					.controls
+				.control-group
+					label.control-label Mot de passe
+					.controls
+						input(id='password', name='password', type='password',value='', placeholder='Votre mot de passe', required, onchange="form.password2.pattern = this.value;")
+				.control-group
+					label.control-label Confirmez mot de passe
+					.controls
+						input(id='password2', name='password2', type='password',value='', placeholder='Retapez mot de passe', required)
+				.control-group
+					.controls
+						input.btn(type='submit', value='Inscription')

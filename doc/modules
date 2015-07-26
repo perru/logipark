@@ -1,0 +1,2 @@
+#!/bin/bash
+npm install jade express mysql passport passport-local connect-ensure-login pwd dateformat should squel

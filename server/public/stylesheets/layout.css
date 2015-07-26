@@ -1,0 +1,62 @@
+body {
+	padding-top: 41px;
+}
+
+footer {
+	margin-top: 10px;
+}
+
+/* /parking */
+
+.fondparkingblack {
+	background-color: black;
+	margin-bottom: 10px;
+}
+
+.fondparkingphoto {
+	background-position:center left;
+	background-size: 100%;
+}
+
+.fondparkingdeg {
+	background: -webkit-linear-gradient(top, black, rgba(0,0,0,0));
+	background: -moz-linear-gradient(top, black, rgba(0,0,0,0));
+	background: -ms-linear-gradient(top, black, rgba(0,0,0,0));
+	background: -o-linear-gradient(top, black, rgba(0,0,0,0));
+	background: linear-gradient(top, black, rgba(0,0,0,0));
+}
+
+.parking {
+	color: white;
+	text-shadow: 2px 2px 2px black;
+}
+
+form.booking input {
+	width: 100%;
+}
+
+form.booking select {
+	width: 100%;
+}
+
+/*
+.perso fieldset {
+	border: 1px solid grey;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;	
+	-ms-border-radius: 8px;
+    border-radius: 8px;	
+}
+
+.perso legend {
+  display: block;
+  padding: 0; 
+  margin-bottom: 20px; 
+  font-size: 21px;
+  line-height: 40px;
+  color: #333333;
+  width: 0%; 
+  border: 1px;
+  border-bottom: 1px solid #e5e5e5; 
+}
+*/

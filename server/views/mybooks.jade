@@ -1,0 +1,26 @@
+extends layout
+
+block content
+	.container-fluid
+		.page-header
+			h1 Mes Réservations
+			table.table.table-hover
+				thead
+					tr
+						th Parking
+						th Place
+						th Début
+						th Fin
+						th Prix
+				tbody
+					
+					- parseInt(nbreservations);
+					- for(var i = 0; i < nbreservations; i++) {
+					tr
+						td 
+							a(href="/parking/#{reservation[i].id}") #{reservation[i].nom} 
+						td #{reservation[i].nom_place} 
+						td #{date_debut[i]}
+						td #{date_fin[i]}
+						td #{reservation[i].tarifmensuel}€/mois
+					- }

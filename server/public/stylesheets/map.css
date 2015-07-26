@@ -1,0 +1,40 @@
+html, body {
+  /*height: 100%;*/
+}
+
+#map-canvas, #map_canvas {
+  height: 500px;
+  width: 100%;
+  top: 0px;
+}
+
+@media print {
+  html, body {
+    height: auto;
+  }
+
+}
+
+  #map-canvas img {
+	  max-width: none;
+  }
+ #map-canvas label { 
+	  width: auto;
+	  display: inline;
+  }
+
+#panel {
+	display:inline;
+	position:relative;
+	text-align:center;
+	width:100%;
+	float: left;
+	top: 0px;
+	background:linear-gradient(#FFCBA4, #F88017);
+	background:-moz-linear-gradient(#FFCBA4, #F88017);
+	background:-webkit-linear-gradient(#FFCBA4, #F88017);
+	background:-ms-linear-gradient(#FFCBA4, #F88017);
+	padding-top:20px;
+	padding-bottom: 10px;
+	border: 1px solid grey;
+}

@@ -1,0 +1,33 @@
+block infologin
+	.alert.alert-block.alert-info.fade.in
+		button.close(type="button", data-dismiss="alert") &times;
+		.row-fluid
+			table
+				tr
+					td(style="padding-right:10px")
+						- var link = "/register";
+						- link = redirect ? link + "?r=" + encodeURIComponent(redirect) : link;
+						a.btn.btn-large.btn-primary(href='#{link}') S'inscrire à Logipark
+					td
+						span.label.label-warning Attention
+						span &nbsp; Vous devez vous inscrire pour réserver un parking !
+		
+
+.page-header
+	h2 Se connecter à Logipark
+
+- var link2 = "/loginval";
+- link2 = redirect ? link2 + "?r=" + encodeURIComponent(redirect) : link2;
+form.form-horizontal(action='#{link2}', method='post')
+	.control-group
+		label.control-label Mail
+		.controls
+			input(id='mail', name='mail', type='text',value='',placeholder='Votre mail')
+	.control-group
+		label.control-label Mot de passe
+		.controls
+			input(id='pass', name='pass', type='password',value='',placeholder='Votre mot de passe')
+	.control-group
+		.controls
+			input.btn(type='submit', value='Connexion')
+

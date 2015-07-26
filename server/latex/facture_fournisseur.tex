@@ -1,0 +1,68 @@
+\documentclass{facture}
+
+%%%%%%%%%%%%%%%%%%%%% A MODIFIER DANS LA FACTURE %%%%%%%%%%%%%%%%%%%%%
+
+\def\FactureNum {#NUMFACTURE#}	% Numéro de facture
+\def\DateFacture {#DATEFACTURE#}% Date de la facture
+\def\datedebut {#DATEDEBUT#}		% Date de début de la période
+\def\datefin {#DATEFIN#}		% Date de fin de la période
+\def\FactureLieu {Villeurbanne}	% Lieu de l'édition de la facture
+\def\FactureDescr {				% Description de la facture
+Rémunération du contrat d'exploitation du parking relatif la période du \datedebut~au \datefin
+}
+
+% Infos Client
+\def\ClientNom{Logipark}	% Nom du client
+\def\ClientAdresse{3, rue Octavie}
+\def\ClientVille{20, Av. Albert Einstein}
+
+% Données de contact de la société émétrice
+
+\def\NomSociete{#NOMFOURNISSEUR#}
+\def\AdresseSociete{#ADRESSEFOURNISSEUR#}
+\def\VilleSociete{#VILLEFOURNISSEUR#}
+
+% Liste des produits facturés : Désignation, quantité, prix unitaire HT, taux TVA
+\AjouterProduit {Rémunération} {1} {#PUHT#} {19.6}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\geometry{verbose,tmargin=4em,bmargin=8em,lmargin=6em,rmargin=6em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+
+\thispagestyle{fancy}
+\pagestyle{fancy}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+% Nom et adresse de la société
+De : \textbf{\NomSociete} \\
+\AdresseSociete \\
+\VilleSociete \\
+
+Facture n°\FactureNum \\
+Date : \DateFacture
+
+
+\hspace*{10.5cm} À : \textbf{\ClientNom} \\
+\hspace*{10.5cm} \ClientAdresse \\
+\hspace*{10.5cm} \ClientVille \\
+
+{\huge \textbf{Facture en euros}}
+
+\textnormal{\FactureDescr}
+
+\begin{center}
+    \begin{tabular}{lrrrr}
+        \textbf{Désignation ~~~~~~} & \textbf{Prix unitaire HT} & \textbf{TVA} & \textbf{Qté} & \textbf{Prix total HT} \\
+        \hline
+        \AfficheResultat{}
+    \end{tabular}
+\end{center}
+
+\end{document}

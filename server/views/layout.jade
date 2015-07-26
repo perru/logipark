@@ -1,0 +1,65 @@
+doctype 5
+html
+	head
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		title= title
+		block css
+			link(rel='stylesheet', type='text/css', href='/stylesheets/layout.css')
+			link(rel='stylesheet', type='text/css', href='/bootstrap/css/bootstrap.css')
+			link(rel='stylesheet', type='text/css', href='/stylesheets/slimbox2.css')
+		block script
+			script(type='text/javascript', src='/javascripts/jquery.min.js')
+			script(type='text/javascript', src='/bootstrap/js/bootstrap.js')
+			script(type='text/javascript', src='/javascripts/slimbox2.js')
+	body(data-spy="scroll", data-target=".navbar", data-offset-top="50")
+	
+		// Navbar
+		header.navbar.navbar-inverse.navbar-fixed-top
+			.navbar-inner
+				.container-fluid
+
+					a.brand LogiPark
+					ul.nav
+						li.active.divider-vertical
+							a(href='/') Accueil
+						li
+							a(href='/about') A propos
+					ul.nav.pull-right
+						- if(!user) {
+							li
+								a(href='/register') Inscription
+							li
+								a(href="#login", data-toggle="modal") Connexion
+						- } else {
+							li.dropdown
+								a.dropdown-toogle(data-toggle="dropdown", href="#") 
+									i.icon-user.icon-white
+									span &nbsp; #{user.prenom} #{user.nom} &nbsp;
+									b.caret
+								ul.dropdown-menu
+									li
+										a(href="/mybooks/#{user.id}") Mes réservations
+									li
+										a(href="/profil") Modifier mon profil
+									li
+										a(href="/logout") Se déconnecter
+						- }
+
+		// Body
+		div
+			block content
+
+		div#login.modal.hide.fade(role="dialog", tabindex="-1", aria-labelledby="loginLabel", aria-hidden="true")
+			div.modal-header
+				button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+				h3 Connexion
+			div.modal-body
+				include includes/login
+			div.modal-footer
+				button.btn(data-dismiss="modal", aria-hidden="true") Fermer
+
+		// Footer
+		footer.container-fluid
+			.well.well-small
+				sp &copy; LogiPark - 2013
+

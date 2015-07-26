@@ -1,0 +1,86 @@
+extends layout
+
+append css
+	link(rel='stylesheet', type='text/css', href='/jquery.datepicker/jquery.datepick.css')
+	link(rel='stylesheet', type='text/css', href='http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css')
+	
+append script
+	script(type='text/javascript', src='http://code.jquery.com/ui/1.10.3/jquery-ui.js')
+	script(type='text/javascript', src='/javascripts/datepicker.js')
+
+
+block content
+	.fondparkingblack
+		.fondparkingphoto(style="background-image:url(/upload/#{parking.photo});")
+			.fondparkingdeg
+				.container-fluid.parking
+					h1 #{parking.nom}
+					p.lead #{parking.adresse}
+	.container-fluid
+		.row-fluid
+			.span3
+				.well
+					h3 Réservation
+					form.booking(action='/confirm/#{parking.id}', method='post')
+						.row-fluid
+							.span4
+								label.text-right Du
+							.span8
+									input.input-medium(name='from', type='text', id='from', required)
+						.row-fluid
+							.span4
+								label.text-right Au
+							.span8
+									input.input-medium(name='to', type='text', id='to', required)
+						.row-fluid
+							.span4
+								label.text-right Quantité
+							.span8
+								input.input-medium(name='quantite', type='number',value='1',placeholder='Nombre de places')
+								input.input-medium(name='id', type='hidden',value='#{user.id}')
+								input.input-medium(name='id_place', type='hidden',value='#{place[0].id}')
+						.row-fluid
+							.span12
+								- if(nbplaces == 0) {
+								p.btn.btn-danger.btn-large.btn-block.disabled Complet
+								- }
+								- else {
+								input.btn.btn-warning.btn-large.btn-block(type='submit', value='Confirmer')
+								- }
+			.span6
+				fieldset
+					legend Caractéristiques
+					- if (parking.b_weekend == 1) {
+						i.icon-ok &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disponible&nbsp;le&nbsp;weekend.
+					- } else {
+						i.icon-remove &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disponible&nbsp;le&nbsp;weekend.
+					- }
+					p
+					- if (parking.b_souterrain == 1) {
+						i.icon-ok &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parking&nbsp;souterrain.
+					- } else {
+						i.icon-remove &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parking&nbsp;souterrain.
+					- }
+					p
+					- if (parking.b_gardiennage == 1) {
+						i.icon-ok &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parking&nbsp;surveillé.
+					- } else {
+						i.icon-remove &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parking&nbsp;surveillé.
+					- }
+					p
+					- if (parking.b_pmr == 1) {
+						i.icon-ok &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accès&nbsp;handicapé.
+					- } else {
+						i.icon-remove &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accès&nbsp;handicapé.
+					- }
+					p
+					p #{parking.details}
+				fieldset
+					legend Tarifs
+					p #{parking.tarifmensuel}€/mois
+			.span3
+				.thumbnail
+					a(href="/upload/#{parking.photo}", rel="lightbox", title="Photo prise sur place : #{parking.nom}")
+						img.img-rounded(src="/upload/#{parking.photo}", alt="Photo du parking", )
+					.caption
+					p Photo prise sur place : #{parking.nom}
