@@ -13,7 +13,7 @@ Prêt à l'emploi. Des améliorations peuvent être apportées.
 - dateformat 
 - should 
 - squel
-- 
+
 #Lancement 
 
 node web.js
