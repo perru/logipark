@@ -1,4 +1,4 @@
-#Serveur NodeJS + site pour le projet Logipark.
+#Serveur NodeJS + site pour le projet Logipark
 
 Prêt à l'emploi. Des améliorations peuvent être apportées.
 
